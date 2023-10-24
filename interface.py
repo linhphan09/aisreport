@@ -1,9 +1,17 @@
 import streamlit as st
 import pandas as pd
-st.title ("BT5110 AIS Report")
-df = pd.DataFrame({
-  'first column': [1, 2, 3, 4],
-  'second column': [10, 20, 30, 40]
-})
+import psycopg2
 
-df
+@st.cache_resource
+def init_connection():
+    return psycopg2.connect(**st.secrets["postgresql"])
+conn = init_connection()
+@st.experimental_memo(ttl=600)
+def run_query(query):
+    with conn.cursor() as cur:
+        cur.execute(query)
+        return cur.fetchall()
+rows = run_query("SELECT * FROM customers LIMIT 10")
+data = pd.DataFrame(rows)
+data.columns=['ssn','first_name','country']
+st.table(data)
