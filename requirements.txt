@@ -1,2 +1,2 @@
-psycopg2==2.8.6
-sqlalchemy==2.0.22 
+psycopg2
+sqlalchemy
