@@ -1,4 +1,5 @@
 import streamlit as st
+import sqlalchemy
 
 # Initialize connection.
 conn = st.experimental_connection("postgresql", type="sql")
